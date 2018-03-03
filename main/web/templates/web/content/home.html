@@ -1,0 +1,61 @@
+{% extends "web/base.html" %}
+{% load i18n staticfiles %}
+{% block title %}{% trans "Home" %}{% endblock title %}
+{% block extracss %}
+<style type="text/css">
+.form-control {width:100% !important;}
+</style>
+{% endblock extracss %}
+{% block content %}
+{% include "web/includes/sidebar.html" %}
+<div class="content-wrapper">
+	<div class="container-fluid">
+		<h3><i class="fa fa-fw fa-podcast"></i> {% trans "Live Prices" %}</h3>
+		<div class="row">
+			<div class="form-group col-4">
+				<label>{% trans "Limit" %}</label>&nbsp;&nbsp;
+				<select class="form-control" id="limit_filter">
+					<option>10</option><option>50</option><option selected>100</option><option>1000</option><option>10000</option>
+				</select>
+			</div>
+			<div class="form-group col-4">
+				<label>{% trans "Page" %}</label>&nbsp;&nbsp;
+				<select class="form-control" id="start_filter">
+					<option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+				</select>
+			</div>
+			<div class="form-group col-4">
+				<label>{% trans "Search" %}</label>&nbsp;&nbsp;
+				<input type="text" id="search_filter" class="form-control" placeholder="{% trans 'Search' %}">
+			</div>
+		</div>
+		<table class="table table-stripped table-sm">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>{% trans "Name" %}</th>
+					<th>{% trans "Market Cap" %}</th>
+					<th>{% trans "Price" %}</th>
+					<th>{% trans "Circulating Value" %}</th>
+					<th>{% trans "Volume" %}</th>
+					<th>%1h</th>
+					<th>%24h</th>
+					<th>%7d</th>
+				</tr>
+			</thead>
+			<tbody id="trade_prices_list"></tbody>
+		</table>
+		<small>{% trans "Count" %} (<span id="trade_count">0</span>)</small>
+	</div>
+</div>
+{% csrf_token %}
+<input type="hidden" name="trade_prices_check" value="{% url 'web:trade_prices_check' %}">
+{% endblock content %}
+{% block extrajs %}
+<script type="text/javascript">
+window.main_trans = {
+	"unknown": '{% trans "Unknown" %}',
+}
+</script>
+<script type="text/javascript" src="/static/web/home.js"></script>
+{% endblock extrajs %}
