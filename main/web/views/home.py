@@ -25,9 +25,8 @@ def trade_prices_check(request):
 				def searchinlist(dt):
 					matched = False
 					pattern = re.compile(re.escape(search))
-					for k, d in dt.items():
-						if re.search(pattern, "{}".format(d)):
-							matched = True
+					if re.search(pattern, "{}".format(dt.get("name"))) or re.search(pattern, "{}".format(dt.get("id"))):
+						matched = True
 					return dt if matched else None
 				args = json.dumps(list(filter(partial(is_not, None), map(searchinlist, json.loads(args)))))
 	return HttpResponse(args, content_type="application/json")
